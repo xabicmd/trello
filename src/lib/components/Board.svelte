@@ -1,5 +1,6 @@
 <script lang="ts">
   import Card from "./Card.svelte"
+  import CardModal from "./CardModal.svelte"
 
   type Column = {
     id: string
@@ -11,6 +12,16 @@
     id: string
     title: string
     description: string
+    responsable: string
+    tipo: string
+    comentarios: Comment[]
+  }
+
+  type Comment = {
+    id: string
+    autor: string
+    texto: string
+    fecha: string
   }
 
   let columns: Column[] = [
@@ -23,6 +34,8 @@
   let draggedCardId: string | null = null
   let draggedFromColumnId: string | null = null
   let dropTargetIndex: number | null = null
+  let isModalOpen = false
+  let selectedCard: Card | null = null
 
   function handleDragStart(cardId: string, columnId: string) {
     draggedCardId = cardId
@@ -94,9 +107,39 @@
         id: crypto.randomUUID(),
         title: "Nueva tarea",
         description: "Descripción de la tarea",
+        responsable: "",
+        tipo: "tarea",
+        comentarios: [],
       }
       column.cards = [...column.cards, newCard]
       columns = [...columns]
+    }
+  }
+
+  function openCardModal(card: Card) {
+    selectedCard = card
+    isModalOpen = true
+  }
+
+  function closeModal() {
+    isModalOpen = false
+    selectedCard = null
+  }
+
+  function saveCard(event: CustomEvent<Card>) {
+    const updatedCard = event.detail
+    const column = columns.find((col) =>
+      col.cards.some((card) => card.id === updatedCard.id)
+    )
+
+    if (column) {
+      const cardIndex = column.cards.findIndex(
+        (card) => card.id === updatedCard.id
+      )
+      if (cardIndex !== -1) {
+        column.cards[cardIndex] = updatedCard
+        columns = [...columns]
+      }
     }
   }
 </script>
@@ -129,6 +172,10 @@
               id={card.id}
               title={card.title}
               description={card.description}
+              responsable={card.responsable}
+              tipo={card.tipo}
+              comentarios={card.comentarios}
+              on:click={() => openCardModal(card)}
             />
           </div>
         {/each}
@@ -136,6 +183,13 @@
     </section>
   {/each}
 </div>
+
+<CardModal
+  bind:isOpen={isModalOpen}
+  card={selectedCard}
+  on:close={closeModal}
+  on:save={saveCard}
+/>
 
 <style>
   .board {
@@ -150,9 +204,9 @@
     flex: 1;
     min-width: 17.5rem;
     background: var(--color-bg-column);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     padding: 0.5rem;
-    border: 0.0625rem solid var(--color-border-primary);
+    border: 1px solid var(--color-border-primary);
   }
 
   header {
@@ -195,7 +249,7 @@
   }
 
   .card-wrapper:hover {
-    transform: translateY(-0.0625rem);
+    transform: translateY(-0.1rem);
   }
 
   .card-wrapper.dragging {
