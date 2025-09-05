@@ -23,6 +23,7 @@
 </script>
 
 <div
+  class="card"
   data-card-id={id}
   on:click={handleClick}
   on:keydown={(e) => e.key === "Enter" && handleClick()}
@@ -30,20 +31,20 @@
   tabindex="0"
 >
   <h3>{title}</h3>
-  <p class="description">{description}</p>
+  <p>{description}</p>
   {#if responsable}
-    <p class="responsable">👤 {responsable}</p>
+    <p>👤 {responsable}</p>
   {/if}
   <div class="card-meta">
-    <span class="tipo tipo-{tipo}">{tipo}</span>
+    <span class="tipo-{tipo}">{tipo}</span>
     {#if comentarios.length > 0}
-      <span class="comentarios">💬 {comentarios.length}</span>
+      <span>💬 {comentarios.length}</span>
     {/if}
   </div>
 </div>
 
 <style>
-  div {
+  .card {
     background: var(--color-bg-card);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
@@ -54,32 +55,28 @@
     transition: var(--transition-base);
   }
 
-  div:hover {
+  .card:hover {
     background: var(--color-bg-card-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
 
-  div h3 {
+  .card h3 {
     font-size: var(--font-size-sm);
     margin: 0 0 0.5rem 0;
     color: var(--color-text-primary);
   }
 
-  div p {
+  .card p:first-of-type {
     font-size: var(--font-size-xs);
     color: var(--color-text-secondary);
-    margin: 0;
+    margin: 0 0 0.5rem 0;
   }
 
-  .description {
-    margin-bottom: 0.5rem !important;
-  }
-
-  .responsable {
+  .card p:last-of-type {
     font-size: var(--font-size-xs);
     color: var(--color-text-primary);
-    margin: 0.25rem 0 !important;
+    margin: 0.25rem 0 0 0;
     font-weight: 500;
   }
 
@@ -91,10 +88,10 @@
     gap: 0.5rem;
   }
 
-  .tipo {
-    font-size: 0.75rem;
+  .card-meta span:first-child {
+    font-size: var(--font-size-xs);
     padding: 0.25rem 0.5rem;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     font-weight: 500;
     text-transform: capitalize;
   }
@@ -119,8 +116,8 @@
     color: #f57c00;
   }
 
-  .comentarios {
-    font-size: 0.75rem;
+  .card-meta span:last-child {
+    font-size: var(--font-size-xs);
     color: var(--color-text-secondary);
   }
 </style>

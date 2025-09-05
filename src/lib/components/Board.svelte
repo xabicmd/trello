@@ -158,7 +158,7 @@
           >+ Añadir tarjeta</button
         >
       </header>
-      <div class="column-content">
+      <div>
         {#each column.cards as card, index}
           <div
             class="card-wrapper"
@@ -238,7 +238,7 @@
     color: var(--color-text-primary);
   }
 
-  .column-content {
+  section > div {
     min-height: 6.25rem;
   }
 

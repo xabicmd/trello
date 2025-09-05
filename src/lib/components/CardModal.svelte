@@ -60,10 +60,10 @@
   }
 
   function addComment() {
-    if (nuevoComentario.autor && nuevoComentario.texto && card) {
+    if (nuevoComentario.texto && card) {
       const comment: Comment = {
         id: crypto.randomUUID(),
-        autor: nuevoComentario.autor,
+        autor: "Usuario", // Temporal hasta implementar login
         texto: nuevoComentario.texto,
         fecha: new Date().toLocaleString("es-ES"),
       }
@@ -101,51 +101,39 @@
   >
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Editar Tarea</h2>
-        <button
-          class="close-button"
-          on:click={closeModal}
-          aria-label="Cerrar modal"
-        >
-          ✕
-        </button>
+        <h2>{card?.title || "Nueva Tarea"}</h2>
+        <button on:click={closeModal} aria-label="Cerrar modal">✕</button>
       </div>
 
       <form on:submit|preventDefault={handleSubmit} class="modal-form">
-        <div class="form-group">
-          <label for="title">Nombre de la tarea</label>
-          <input
-            id="title"
-            type="text"
-            bind:value={formData.title}
-            placeholder="Ingresa el nombre de la tarea"
-            required
-          />
-        </div>
+        <input
+          id="title"
+          type="text"
+          bind:value={formData.title}
+          placeholder="Nombre de la tarea"
+          required
+        />
 
-        <div class="form-group">
-          <label for="description">Descripción</label>
-          <textarea
-            id="description"
-            bind:value={formData.description}
-            placeholder="Describe la tarea en detalle"
-            rows="3"
-          ></textarea>
-        </div>
+        <textarea
+          id="description"
+          bind:value={formData.description}
+          placeholder="Descripción de la tarea"
+          rows="3"
+        ></textarea>
 
         <div class="form-row">
-          <div class="form-group">
-            <label for="responsable">Responsable</label>
+          <div class="input-with-icon">
+            <span>👤</span>
             <input
               id="responsable"
               type="text"
               bind:value={formData.responsable}
-              placeholder="Nombre del responsable"
+              placeholder="Responsable"
             />
           </div>
 
-          <div class="form-group">
-            <label for="tipo">Tipo</label>
+          <div class="input-with-icon">
+            <span>🏷️</span>
             <select id="tipo" bind:value={formData.tipo}>
               <option value="tarea">Tarea</option>
               <option value="bug">Bug</option>
@@ -156,10 +144,8 @@
         </div>
 
         <div class="form-actions">
-          <button type="button" on:click={closeModal} class="btn-secondary">
-            Cancelar
-          </button>
-          <button type="submit" class="btn-primary"> Guardar </button>
+          <button type="button" on:click={closeModal}>Cancelar</button>
+          <button type="submit">Guardar</button>
         </div>
       </form>
 
@@ -174,7 +160,7 @@
                   <strong>{comment.autor}</strong>
                   <span class="comment-date">{comment.fecha}</span>
                 </div>
-                <p class="comment-text">{comment.texto}</p>
+                <p>{comment.texto}</p>
               </div>
             {/each}
           </div>
@@ -183,27 +169,14 @@
 
       <!-- Formulario para nuevo comentario -->
       <div class="new-comment-section">
-        <h3>Agregar Comentario</h3>
         <div class="comment-form">
-          <div class="form-group">
-            <input
-              type="text"
-              bind:value={nuevoComentario.autor}
-              placeholder="Tu nombre"
-              class="comment-input"
-            />
-          </div>
-          <div class="form-group">
-            <textarea
-              bind:value={nuevoComentario.texto}
-              placeholder="Escribe tu comentario..."
-              rows="2"
-              class="comment-textarea"
-            ></textarea>
-          </div>
-          <button type="button" on:click={addComment} class="btn-comment">
-            Agregar Comentario
-          </button>
+          <textarea
+            bind:value={nuevoComentario.texto}
+            placeholder="Escribe tu comentario..."
+            rows="2"
+          ></textarea>
+          <button type="button" on:click={addComment}>Agregar Comentario</button
+          >
         </div>
       </div>
     </div>
@@ -217,7 +190,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,15 +199,15 @@
   }
 
   .modal-content {
-    background: var(--color-bg-main, #ffffff);
-    border-radius: var(--radius-md, 8px);
-    box-shadow:
-      0 20px 25px -5px rgba(0, 0, 0, 0.1),
-      0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    max-width: 600px;
+    background: var(--color-bg-main);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    max-width: 50%;
     width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-primary);
   }
 
   .modal-header {
@@ -242,35 +215,42 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
-    border-bottom: 1px solid var(--color-border-primary, #e5e7eb);
+    border-bottom: 1px solid var(--color-border-primary);
   }
 
   .modal-header h2 {
     margin: 0;
-    color: var(--color-text-primary, #111827);
-    font-size: 1.25rem;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
   }
 
-  .close-button {
+  .modal-header button {
+    width: 2rem;
+    height: 2rem;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1rem;
     cursor: pointer;
-    color: var(--color-text-secondary, #6b7280);
+    color: var(--color-text-secondary);
     padding: 0.25rem;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+    border-radius: var(--radius-xl);
+    transition: var(--transition-base);
   }
 
-  .close-button:hover {
-    background: var(--color-bg-card-hover, #f3f4f6);
+  .modal-header button:hover {
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-primary);
   }
 
   .modal-form {
     padding: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
   }
 
-  .form-group {
+  .modal-form > input,
+  .modal-form > textarea {
     margin-bottom: 1rem;
   }
 
@@ -280,32 +260,53 @@
     gap: 1rem;
   }
 
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--color-text-primary, #111827);
+  .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
+  .input-with-icon span {
+    position: absolute;
+    left: 0.75rem;
+    z-index: 1;
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+  }
+
+  .modal-form input,
+  .modal-form textarea,
+  .input-with-icon input,
+  .input-with-icon select {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--color-border-primary, #d1d5db);
-    border-radius: var(--radius-sm, 6px);
-    font-size: 0.875rem;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-md);
+    background: var(--color-bg-card);
+    transition: var(--transition-base);
+    font-family: inherit;
+    color: var(--color-text-primary);
   }
 
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
+  .modal-form input:focus,
+  .modal-form textarea:focus,
+  .input-with-icon input:focus,
+  .input-with-icon select:focus {
     outline: none;
-    border-color: var(--color-primary, #3b82f6);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: var(--color-bg-main);
+    box-shadow: 0 0 0 2px var(--color-border-secondary);
+  }
+
+  .modal-form textarea {
+    padding-left: 0.75rem;
+    resize: vertical;
+    min-height: 10rem;
+  }
+
+  .input-with-icon select {
+    cursor: pointer;
+    background: transparent;
   }
 
   .form-actions {
@@ -314,72 +315,78 @@
     justify-content: flex-end;
     margin-top: 1.5rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--color-border-primary, #e5e7eb);
+    border-top: 1px solid var(--color-border-primary);
   }
 
-  .btn-primary,
-  .btn-secondary,
-  .btn-comment {
+  .form-actions button {
     padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-sm, 6px);
+    border-radius: var(--radius-xl);
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: var(--transition-base);
+    border: none;
+    font-size: var(--font-size-sm);
+  }
+
+  .form-actions button[type="submit"] {
+    background: var(--color-border-secondary);
+    color: var(--color-text-primary);
+  }
+
+  .form-actions button[type="submit"]:hover {
+    background: var(--color-bg-card-hover);
+  }
+
+  .form-actions button[type="button"] {
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-primary);
+  }
+
+  .form-actions button[type="button"]:hover {
+    background: var(--color-bg-card-hover);
+  }
+
+  .comment-form button {
+    background: var(--color-border-secondary);
+    color: var(--color-text-primary);
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-xl);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-base);
     border: none;
   }
 
-  .btn-primary {
-    background: var(--color-primary, #3b82f6);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-primary-hover, #2563eb);
-  }
-
-  .btn-secondary {
-    background: var(--color-bg-card, #f9fafb);
-    color: var(--color-text-primary, #111827);
-    border: 1px solid var(--color-border-primary, #d1d5db);
-  }
-
-  .btn-secondary:hover {
-    background: var(--color-bg-card-hover, #f3f4f6);
-  }
-
-  .btn-comment {
-    background: var(--color-success, #10b981);
-    color: white;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-  }
-
-  .btn-comment:hover {
-    background: var(--color-success-hover, #059669);
+  .comment-form button:hover {
+    background: var(--color-bg-card-hover);
   }
 
   .comments-section {
     padding: 1.5rem;
-    border-top: 1px solid var(--color-border-primary, #e5e7eb);
+    border-top: 1px solid var(--color-border-primary);
+    flex-shrink: 0;
   }
 
   .comments-section h3 {
     margin: 0 0 1rem 0;
-    color: var(--color-text-primary, #111827);
-    font-size: 1.125rem;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
   }
 
   .comments-list {
-    max-height: 200px;
+    max-height: 12.5rem;
     overflow-y: auto;
     margin-bottom: 1rem;
   }
 
   .comment {
-    background: var(--color-bg-card, #f9fafb);
-    border-radius: var(--radius-sm, 6px);
+    background: var(--color-bg-card);
+    border-radius: var(--radius-sm);
     padding: 0.75rem;
     margin-bottom: 0.75rem;
+    border: 1px solid var(--color-border-primary);
   }
 
   .comment-header {
@@ -390,32 +397,27 @@
   }
 
   .comment-header strong {
-    color: var(--color-text-primary, #111827);
-    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
   }
 
   .comment-date {
-    color: var(--color-text-secondary, #6b7280);
-    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
   }
 
-  .comment-text {
+  .comment p {
     margin: 0;
-    color: var(--color-text-primary, #111827);
-    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
     line-height: 1.4;
   }
 
   .new-comment-section {
     padding: 1.5rem;
-    border-top: 1px solid var(--color-border-primary, #e5e7eb);
-    background: var(--color-bg-card, #f9fafb);
-  }
-
-  .new-comment-section h3 {
-    margin: 0 0 1rem 0;
-    color: var(--color-text-primary, #111827);
-    font-size: 1.125rem;
+    border-top: 1px solid var(--color-border-primary);
+    background: var(--color-bg-card);
+    flex-shrink: 0;
   }
 
   .comment-form {
@@ -423,18 +425,27 @@
     gap: 0.75rem;
   }
 
-  .comment-input,
-  .comment-textarea {
-    background: white;
+  textarea {
+    background: var(--color-bg-main);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    padding: 0.75rem;
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    resize: vertical;
+    width: 100%;
+    min-height: 5rem;
+    transition: var(--transition-base);
   }
 
-  @media (max-width: 640px) {
-    .form-row {
-      grid-template-columns: 1fr;
-    }
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-border-secondary);
+    box-shadow: 0 0 0 2px var(--color-border-secondary);
+  }
 
-    .modal-content {
-      margin: 0.5rem;
-    }
+  textarea::placeholder {
+    color: var(--color-text-secondary);
   }
 </style>

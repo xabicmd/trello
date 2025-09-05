@@ -21,6 +21,7 @@
   /* Border Radius */
   --radius-sm: 0.3rem;
   --radius-md: 0.5rem;
+  --radius-xl: 5rem;
 
   /* Shadows */
   --shadow-sm: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
