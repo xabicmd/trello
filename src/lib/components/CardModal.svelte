@@ -1,10 +1,10 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
-  import type { Card, Comment } from "../types/types"
+  import type { CardType, CommentType } from "../types/types"
 
   export let isOpen = false
-  export let card: Card | null = null
+  export let card: CardType | null = null
 
   const dispatch = createEventDispatcher()
 
@@ -47,7 +47,7 @@
 
   function addComment() {
     if (nuevoComentario.texto && card) {
-      const comment: Comment = {
+      const comment: CommentType = {
         id: crypto.randomUUID(),
         autor: "Usuario", // Temporal hasta implementar login
         texto: nuevoComentario.texto,

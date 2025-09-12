@@ -1,30 +1,9 @@
 <script lang="ts">
   import Card from "./Card.svelte"
   import CardModal from "./CardModal.svelte"
+  import type { CardType, ColumnType } from "../types/types"
 
-  type Column = {
-    id: string
-    title: string
-    cards: Card[]
-  }
-
-  type Card = {
-    id: string
-    title: string
-    description: string
-    responsable: string
-    tipo: string
-    comentarios: Comment[]
-  }
-
-  type Comment = {
-    id: string
-    autor: string
-    texto: string
-    fecha: string
-  }
-
-  let columns: Column[] = [
+  let columns: ColumnType[] = [
     { id: "todo", title: "Por hacer", cards: [] },
     { id: "in-progress", title: "En progreso", cards: [] },
     { id: "review", title: "En revisión", cards: [] },
@@ -35,7 +14,7 @@
   let draggedFromColumnId: string | null = null
   let dropTargetIndex: number | null = null
   let isModalOpen = false
-  let selectedCard: Card | null = null
+  let selectedCard: CardType | null = null
 
   function handleDragStart(cardId: string, columnId: string) {
     draggedCardId = cardId
@@ -46,10 +25,6 @@
     draggedCardId = null
     draggedFromColumnId = null
     dropTargetIndex = null
-  }
-
-  function handleDragOver(event: DragEvent) {
-    event.preventDefault()
   }
 
   function handleCardDragOver(event: DragEvent, cardIndex: number) {
@@ -69,24 +44,18 @@
       const toColumn = columns.find((col) => col.id === columnId)
 
       if (fromColumn && toColumn) {
-        const cardIndex = fromColumn.cards.findIndex(
-          (card) => card.id === draggedCardId
-        )
+        const cardIndex = fromColumn.cards.findIndex((card) => card.id === draggedCardId)
 
         if (cardIndex !== -1) {
           const [card] = fromColumn.cards.splice(cardIndex, 1)
 
           if (columnId === draggedFromColumnId) {
             // Reordenar dentro de la misma columna
-            const insertIndex =
-              dropTargetIndex !== null
-                ? dropTargetIndex
-                : fromColumn.cards.length
+            const insertIndex = dropTargetIndex !== null ? dropTargetIndex : fromColumn.cards.length
             fromColumn.cards.splice(insertIndex, 0, card)
           } else {
             // Mover a otra columna
-            const insertIndex =
-              dropTargetIndex !== null ? dropTargetIndex : toColumn.cards.length
+            const insertIndex = dropTargetIndex !== null ? dropTargetIndex : toColumn.cards.length
             toColumn.cards.splice(insertIndex, 0, card)
           }
 
@@ -103,7 +72,7 @@
   function addCard(columnId: string) {
     const column = columns.find((col) => col.id === columnId)
     if (column) {
-      const newCard: Card = {
+      const newCard: CardType = {
         id: crypto.randomUUID(),
         title: "Nueva tarea",
         description: "Descripción de la tarea",
@@ -116,7 +85,7 @@
     }
   }
 
-  function openCardModal(card: Card) {
+  function openCardModal(card: CardType) {
     selectedCard = card
     isModalOpen = true
   }
@@ -126,16 +95,12 @@
     selectedCard = null
   }
 
-  function saveCard(event: CustomEvent<Card>) {
+  function saveCard(event: CustomEvent<CardType>) {
     const updatedCard = event.detail
-    const column = columns.find((col) =>
-      col.cards.some((card) => card.id === updatedCard.id)
-    )
+    const column = columns.find((col) => col.cards.some((card) => card.id === updatedCard.id))
 
     if (column) {
-      const cardIndex = column.cards.findIndex(
-        (card) => card.id === updatedCard.id
-      )
+      const cardIndex = column.cards.findIndex((card) => card.id === updatedCard.id)
       if (cardIndex !== -1) {
         column.cards[cardIndex] = updatedCard
         columns = [...columns]
@@ -147,16 +112,10 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="board">
   {#each columns as column}
-    <section
-      data-column-id={column.id}
-      on:dragover={handleColumnDragOver}
-      on:drop={() => handleDrop(column.id)}
-    >
+    <section data-column-id={column.id} on:dragover={handleColumnDragOver} on:drop={() => handleDrop(column.id)}>
       <header>
         <h2>{column.title}</h2>
-        <button type="button" on:click={() => addCard(column.id)}
-          >+ Añadir tarjeta</button
-        >
+        <button type="button" on:click={() => addCard(column.id)}>+ Añadir tarjeta</button>
       </header>
       <div>
         {#each column.cards as card, index}
@@ -184,12 +143,7 @@
   {/each}
 </div>
 
-<CardModal
-  bind:isOpen={isModalOpen}
-  card={selectedCard}
-  on:close={closeModal}
-  on:save={saveCard}
-/>
+<CardModal bind:isOpen={isModalOpen} card={selectedCard} on:close={closeModal} on:save={saveCard} />
 
 <style>
   .board {
