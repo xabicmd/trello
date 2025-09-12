@@ -35,6 +35,7 @@
       <span>💬 {comentarios.length}</span>
     {/if}
   </div>
+  <p>{id}</p>
 </div>
 
 <style>
@@ -111,5 +112,12 @@
 
   .card-meta span:not([class^="tipo-"]) {
     font-size: var(--font-size-xs);
+  }
+
+  p:last-child {
+    color: var(--color-text-secondary);
+    font-size: 0.5rem;
+    font-weight: unset;
+    text-align: right;
   }
 </style>
