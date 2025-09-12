@@ -1,3 +1,4 @@
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
   import type { Card, Comment } from "../types/types"
@@ -76,45 +77,22 @@
 </script>
 
 {#if isOpen}
-  <div
-    class="modal-backdrop"
-    on:click={handleBackdropClick}
-    on:keydown={(e) => e.key === "Escape" && closeModal()}
-    role="dialog"
-    aria-modal="true"
-    tabindex="-1"
-  >
+  <div class="modal-backdrop" on:click={handleBackdropClick} on:keydown={(e) => e.key === "Escape" && closeModal()}>
     <div class="modal-content">
       <div class="modal-header">
-        <h2>{card?.title || "Nueva Tarea"}</h2>
-        <button on:click={closeModal} aria-label="Cerrar modal">✕</button>
+        <!-- <h2>{card?.title || "Nueva Tarea"}</h2> -->
+        <input id="title" type="text" bind:value={formData.title} placeholder="Nombre de la tarea" required />
+        <button on:click={closeModal}>✕</button>
       </div>
 
       <form on:submit|preventDefault={handleSubmit} class="modal-form">
-        <input
-          id="title"
-          type="text"
-          bind:value={formData.title}
-          placeholder="Nombre de la tarea"
-          required
-        />
-
-        <textarea
-          id="description"
-          bind:value={formData.description}
-          placeholder="Descripción de la tarea"
-          rows="3"
+        <textarea id="description" bind:value={formData.description} placeholder="Descripción de la tarea" rows="3"
         ></textarea>
 
         <div class="form-row">
           <div class="input-with-icon">
             <span>👤</span>
-            <input
-              id="responsable"
-              type="text"
-              bind:value={formData.responsable}
-              placeholder="Responsable"
-            />
+            <input id="responsable" type="text" bind:value={formData.responsable} placeholder="Responsable" />
           </div>
 
           <div class="input-with-icon">
@@ -155,13 +133,8 @@
       <!-- Formulario para nuevo comentario -->
       <div class="new-comment-section">
         <div class="comment-form">
-          <textarea
-            bind:value={nuevoComentario.texto}
-            placeholder="Escribe tu comentario..."
-            rows="2"
-          ></textarea>
-          <button type="button" on:click={addComment}>Agregar Comentario</button
-          >
+          <textarea bind:value={nuevoComentario.texto} placeholder="Escribe tu comentario..." rows="2"></textarea>
+          <button type="button" on:click={addComment}>Agregar Comentario</button>
         </div>
       </div>
     </div>
@@ -203,11 +176,16 @@
     border-bottom: 1px solid var(--color-border-primary);
   }
 
-  .modal-header h2 {
-    margin: 0;
-    color: var(--color-text-primary);
+  .modal-header input {
+    width: 100%;
+    padding: 0.5rem 1rem;
     font-size: var(--font-size-lg);
     font-weight: 600;
+    border: 1px solid var(--color-bg-main);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-main);
+    color: var(--color-text-primary);
+    transition: var(--transition-base);
   }
 
   .modal-header button {
@@ -234,7 +212,6 @@
     overflow-y: auto;
   }
 
-  .modal-form > input,
   .modal-form > textarea {
     margin-bottom: 1rem;
   }
@@ -272,6 +249,10 @@
     transition: var(--transition-base);
     font-family: inherit;
     color: var(--color-text-primary);
+  }
+
+  .modal-form input#responsable {
+    background-color: unset;
   }
 
   .modal-form input:focus,

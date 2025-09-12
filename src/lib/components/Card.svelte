@@ -1,3 +1,4 @@
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
 
@@ -22,14 +23,7 @@
   }
 </script>
 
-<div
-  class="card"
-  data-card-id={id}
-  on:click={handleClick}
-  on:keydown={(e) => e.key === "Enter" && handleClick()}
-  role="button"
-  tabindex="0"
->
+<div class="card" data-card-id={id} on:click={handleClick} on:keydown={(e) => e.key === "Enter" && handleClick()}>
   <h3>{title}</h3>
   <p>{description}</p>
   {#if responsable}
@@ -118,6 +112,5 @@
 
   .card-meta span:last-child {
     font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
   }
 </style>
