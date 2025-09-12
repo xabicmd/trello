@@ -38,6 +38,17 @@
 </div>
 
 <style>
+  :root {
+    --color-tag-tarea-bg: #e3f2fd;
+    --color-tag-tarea-text: #1976d2;
+    --color-tag-bug-bg: #ffebee;
+    --color-tag-bug-text: #d32f2f;
+    --color-tag-mejora-bg: #e8f5e8;
+    --color-tag-mejora-text: #388e3c;
+    --color-tag-investigacion-bg: #fff3e0;
+    --color-tag-investigacion-text: #f57c00;
+  }
+
   .card {
     background: var(--color-bg-card);
     border-radius: var(--radius-md);
@@ -55,20 +66,19 @@
     box-shadow: var(--shadow-md);
   }
 
-  .card h3 {
+  h3 {
     font-size: var(--font-size-sm);
     margin: 0 0 0.5rem 0;
     color: var(--color-text-primary);
   }
 
-  .card p:first-of-type {
+  p {
     font-size: var(--font-size-xs);
     color: var(--color-text-secondary);
     margin: 0 0 0.5rem 0;
   }
 
-  .card p:last-of-type {
-    font-size: var(--font-size-xs);
+  p:last-of-type {
     color: var(--color-text-primary);
     margin: 0.25rem 0 0 0;
     font-weight: 500;
@@ -82,7 +92,7 @@
     gap: 0.5rem;
   }
 
-  .card-meta span:first-child {
+  .card-meta span[class^="tipo-"] {
     font-size: var(--font-size-xs);
     padding: 0.25rem 0.5rem;
     border-radius: var(--radius-md);
@@ -91,26 +101,26 @@
   }
 
   .tipo-tarea {
-    background: #e3f2fd;
-    color: #1976d2;
+    background: var(--color-tag-tarea-bg);
+    color: var(--color-tag-tarea-text);
   }
 
   .tipo-bug {
-    background: #ffebee;
-    color: #d32f2f;
+    background: var(--color-tag-bug-bg);
+    color: var(--color-tag-bug-text);
   }
 
   .tipo-mejora {
-    background: #e8f5e8;
-    color: #388e3c;
+    background: var(--color-tag-mejora-bg);
+    color: var(--color-tag-mejora-text);
   }
 
   .tipo-investigacion {
-    background: #fff3e0;
-    color: #f57c00;
+    background: var(--color-tag-investigacion-bg);
+    color: var(--color-tag-investigacion-text);
   }
 
-  .card-meta span:last-child {
+  .card-meta span:not([class^="tipo-"]) {
     font-size: var(--font-size-xs);
   }
 </style>
