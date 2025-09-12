@@ -38,17 +38,6 @@
 </div>
 
 <style>
-  :root {
-    --color-tag-tarea-bg: #e3f2fd;
-    --color-tag-tarea-text: #1976d2;
-    --color-tag-bug-bg: #ffebee;
-    --color-tag-bug-text: #d32f2f;
-    --color-tag-mejora-bg: #e8f5e8;
-    --color-tag-mejora-text: #388e3c;
-    --color-tag-investigacion-bg: #fff3e0;
-    --color-tag-investigacion-text: #f57c00;
-  }
-
   .card {
     background: var(--color-bg-card);
     border-radius: var(--radius-md);
