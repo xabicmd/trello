@@ -1,26 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
+  import type { Card, Comment } from "../types/types"
 
   export let isOpen = false
   export let card: Card | null = null
 
   const dispatch = createEventDispatcher()
-
-  type Card = {
-    id: string
-    title: string
-    description: string
-    responsable: string
-    tipo: string
-    comentarios: Comment[]
-  }
-
-  type Comment = {
-    id: string
-    autor: string
-    texto: string
-    fecha: string
-  }
 
   let formData = {
     title: "",
