@@ -36,7 +36,7 @@
     /* Typography */
     --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
       "Helvetica Neue", sans-serif;
-    --font-size-xs: 0.8rem;
+    --font-size-xs: 0.7rem;
     --font-size-sm: 0.9rem;
     --font-size-md: 1rem;
     --font-size-lg: 1.1rem;

@@ -86,9 +86,6 @@
       </div>
 
       <form on:submit|preventDefault={handleSubmit} class="modal-form">
-        <textarea id="description" bind:value={formData.description} placeholder="Descripción de la tarea" rows="3"
-        ></textarea>
-
         <div class="form-row">
           <div class="input-with-icon">
             <span>👤</span>
@@ -105,6 +102,9 @@
             </select>
           </div>
         </div>
+
+        <textarea id="description" bind:value={formData.description} placeholder="Descripción de la tarea" rows="3"
+        ></textarea>
 
         <div class="form-actions">
           <button type="button" on:click={closeModal}>Cancelar</button>
@@ -154,6 +154,7 @@
     justify-content: center;
     z-index: 1000;
     padding: 1rem;
+    backdrop-filter: blur(4px);
   }
 
   .modal-content {
@@ -182,7 +183,7 @@
     font-size: var(--font-size-lg);
     font-weight: 600;
     border: 1px solid var(--color-bg-main);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xl);
     background: var(--color-bg-main);
     color: var(--color-text-primary);
     transition: var(--transition-base);
@@ -207,9 +208,10 @@
   }
 
   .modal-form {
-    padding: 1.5rem;
-    flex: 1;
-    overflow-y: auto;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .modal-form > textarea {
@@ -251,8 +253,10 @@
     color: var(--color-text-primary);
   }
 
-  .modal-form input#responsable {
+  .modal-form input#responsable,
+  .modal-form select {
     background-color: unset;
+    border-radius: var(--radius-xl);
   }
 
   .modal-form input:focus,
@@ -279,9 +283,6 @@
     display: flex;
     gap: 0.75rem;
     justify-content: flex-end;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-primary);
   }
 
   .form-actions button {
@@ -382,7 +383,6 @@
   .new-comment-section {
     padding: 1.5rem;
     border-top: 1px solid var(--color-border-primary);
-    background: var(--color-bg-card);
     flex-shrink: 0;
   }
 

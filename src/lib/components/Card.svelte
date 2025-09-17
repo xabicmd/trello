@@ -85,9 +85,9 @@
   .card-meta span[class^="tipo-"] {
     font-size: var(--font-size-xs);
     padding: 0.25rem 0.5rem;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-xl);
     font-weight: 500;
-    text-transform: capitalize;
+    text-transform: uppercase;
   }
 
   .tipo-tarea {
