@@ -222,6 +222,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    margin: 0.5rem 0;
   }
 
   .input-with-icon {
@@ -305,7 +306,7 @@
   }
 
   .form-actions button[type="button"] {
-    background: var(--color-bg-card);
+    /* background: var(--color-bg-card); */
     color: var(--color-text-primary);
     border: 1px solid var(--color-border-primary);
   }
