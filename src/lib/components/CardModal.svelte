@@ -178,7 +178,7 @@
   }
 
   .modal-header input {
-    width: 100%;
+    width: 90%;
     padding: 0.5rem 1rem;
     font-size: var(--font-size-lg);
     font-weight: 600;
